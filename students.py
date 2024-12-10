@@ -1,23 +1,36 @@
 from datetime import date, timedelta
+from student import Student
 
 
-class Student:
-    """ A Student class as a basis for method testing """
+class TestStudent(unittest.TestCase):
+    
+    @classmethod
+    def setUpClass(cls):
+        print("set up class")
 
-    def __init__(self, first_name, last_name):
-        self._first_name  = first_name
-        self._last_name = last_name
-        self._start_date = date.today()
-        self.end_date = date.today() + timedelta(days=365)
-        self.naughty_list = False
+    def setUp(self):
+        print("setup")
+        self.student = Student("John", "Doe")
 
-    @property
-    def full_name(self):
-        return f"{self._first_name} {self._last_name}"
+    @classmethod
+    def tearDownClass(cls):
+        print("tear down Class")
 
-    @property
-    def email(self):
-        return f"{self._first_name.lower()}.{self._last_name.lower()}@email.com"
+    def tearDown(self):
+        print("tear down")
 
-    def alert_santa(self):
-        self.naughty_list = True
+    def test_full_name(self):
+        print("test_full_name")
+        self.assertEqual(self.student.full_name, "John Doe")
+
+    def test_alert_santa(self):
+        print("test_alert_santa")
+        self.student.alert_santa()
+        self.assertTrue(self.student.naughty_list)
+
+    def test_email(self):
+        print("test_email")
+        self.assertEqual(self.student.email, "john.doe@email.com")
+
+if __name__ == "__main__":
+    unittest.main()
